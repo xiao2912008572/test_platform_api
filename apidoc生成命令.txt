@@ -1,0 +1,1 @@
+apidoc - i /Users/xiaojingyuan/PycharmProjects/test_platform_api -o /Users/xiaojingyuan/PycharmProjects/test_platform_api/apidoc
