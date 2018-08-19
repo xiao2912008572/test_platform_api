@@ -33,15 +33,12 @@ class Project(Resource):
         'success': fields.Boolean
     }
 
-    resource_fields_put = {
-        'success': fields.Boolean
-    }
+    resource_fields_put = {'success': fields.Boolean}
 
     resource_fields_delete = {
         'projectID': fields.Integer,
         'success': fields.Boolean
     }
-
     """
         @api {get} /api/v1/project/ 项目-详情
         @apiDescription 获取具体项目详情
@@ -79,7 +76,12 @@ class Project(Resource):
         parser = reqparse.RequestParser()
 
         # 2. 新增解析字段
-        parser.add_argument('project_id', type=int, location='args', help='project_id验证失败', required=True)
+        parser.add_argument(
+            'project_id',
+            type=int,
+            location='args',
+            help='project_id验证失败',
+            required=True)
 
         # 3. 拿到project_id
         args = parser.parse_args()
@@ -118,9 +120,24 @@ class Project(Resource):
         parser = reqparse.RequestParser()
 
         # 2. 新增解析字段
-        parser.add_argument('projectType', type=int, location='form', help='projectType验证失败', required=True)
-        parser.add_argument('projectName', type=str, location='form', help='projectName验证失败', required=True)
-        parser.add_argument('projectVersion', type=str, location='form', help='projectVersion验证失败', required=True)
+        parser.add_argument(
+            'projectType',
+            type=int,
+            location=['form', 'json'],
+            help='projectType验证失败',
+            required=True)
+        parser.add_argument(
+            'projectName',
+            type=str,
+            location=['form', 'json'],
+            help='projectName验证失败',
+            required=True)
+        parser.add_argument(
+            'projectVersion',
+            type=str,
+            location=['form', 'json'],
+            help='projectVersion验证失败',
+            required=True)
 
         # 3. 解析
         args = parser.parse_args()
@@ -129,14 +146,14 @@ class Project(Resource):
         projectVersion = args['projectVersion']
 
         # 4. 提交数据
-        project = EoProject(projectType=projectType, projectName=projectName, projectVersion=projectVersion)
+        project = EoProject(
+            projectType=projectType,
+            projectName=projectName,
+            projectVersion=projectVersion)
         db.session.add(project)
         db.session.commit()
 
-        return {
-                   'success': True,
-                   'projectID': project.projectID
-               }, 201
+        return {'success': True, 'projectID': project.projectID}, 201
 
     """
         @api {put} /api/v1/project/ 项目-更新
@@ -165,10 +182,21 @@ class Project(Resource):
         parser = reqparse.RequestParser()
 
         # 2. 新增解析字段
-        parser.add_argument('projectID', type=int, location='form', help='projectID验证失败', required=True)
-        parser.add_argument('projectType', type=int, location='form', help='projectType验证失败')
-        parser.add_argument('projectName', type=str, location='form', help='projectName验证失败')
-        parser.add_argument('projectVersion', type=str, location='form', help='projectVersion验证失败')
+        parser.add_argument(
+            'projectID',
+            type=int,
+            location='form',
+            help='projectID验证失败',
+            required=True)
+        parser.add_argument(
+            'projectType', type=int, location='form', help='projectType验证失败')
+        parser.add_argument(
+            'projectName', type=str, location='form', help='projectName验证失败')
+        parser.add_argument(
+            'projectVersion',
+            type=str,
+            location='form',
+            help='projectVersion验证失败')
 
         # 3. 解析
         args = parser.parse_args()
@@ -189,9 +217,7 @@ class Project(Resource):
         project.projectUpdateTime = datetime.datetime.now()
 
         db.session.commit()
-        return {
-                   'success': True
-               }, 204
+        return {'success': True}, 204
 
     """
         @api {delete} /api/v1/project/ 项目-删除
@@ -214,7 +240,12 @@ class Project(Resource):
         parser = reqparse.RequestParser()
 
         # 2. 新增解析字段
-        parser.add_argument('projectID', type=int, location='form', help='projectID验证失败', required=True)
+        parser.add_argument(
+            'projectID',
+            type=int,
+            location='form',
+            help='projectID验证失败',
+            required=True)
 
         # 3. 解析
         args = parser.parse_args()
@@ -223,9 +254,7 @@ class Project(Resource):
         project = EoProject.query.get(projectID)
         db.session.delete(project)
         db.session.commit()
-        return {
-                   'success': True
-               }, 200
+        return {'success': True}, 200
 
 
 api.add_resource(Project, '/', endpoint='project')
@@ -233,14 +262,22 @@ api.add_resource(Project, '/', endpoint='project')
 
 class ProjectList(Resource):
     resource_fields_get = {
-        'projectID': fields.Integer,
-        'projectType': fields.Integer,
-        'projectName': fields.String,
-        'projectCreateTime': fields.String,
-        'projectUpdateTime': fields.String,
-        'projectVersion': fields.String
+        'meta':
+        fields.Nested({
+            'page_size': fields.Integer,
+            'total': fields.Integer
+        }),
+        'projects':
+        fields.List(
+            fields.Nested({
+                'projectID': fields.Integer,
+                'projectType': fields.Integer,
+                'projectName': fields.String,
+                'projectCreateTime': fields.String,
+                'projectUpdateTime': fields.String,
+                'projectVersion': fields.String
+            }))
     }
-
     """
     @api {get} /api/v1/project/list/ 项目-列表
     @apiDescription 获取项目列表
@@ -258,7 +295,12 @@ class ProjectList(Resource):
     
     @apiSuccessExample {json} Success-Response:
     HTTP/1.1 200 OK
-    [
+    {
+    "meta": {
+        "page_size": 10,
+        "total": 1
+    },
+    "projects": [
         {
             "projectID": 1,
             "projectType": 1,
@@ -275,7 +317,8 @@ class ProjectList(Resource):
             "projectUpdateTime": "2018-07-17 11:05:06",
             "projectVersion": "1.1"
         }
-    ]   
+    ]
+}
     """
 
     @marshal_with(resource_fields_get)
@@ -289,17 +332,25 @@ class ProjectList(Resource):
 
         # 字段
         parser.add_argument('page', type=int, location='args', help='page验证失败')
-        parser.add_argument('per_page', type=int, location='args', help='per_page验证失败')
+        parser.add_argument(
+            'per_page', type=int, location='args', help='per_page验证失败')
         args = parser.parse_args()
 
         # 获取
         page = args['page']
         per_page = args['per_page']
 
+        # 条数
+        count = db.session.query(db.func.count(
+            EoProject.projectID)).first()  # 元祖('19',)
+        count = list(count)[0]
+
         # 分页
-        pagination = EoProject.query.order_by(EoProject.projectID).paginate(page=page, per_page=per_page, error_out=False)
+        pagination = EoProject.query.order_by(EoProject.projectID).paginate(
+            page=page, per_page=per_page, error_out=False)
         project = pagination.items
-        return project
+
+        return {'projects': project, 'meta': {'total': count, 'page_size': 10}}
 
 
 api.add_resource(ProjectList, '/list/', endpoint='projectlist')

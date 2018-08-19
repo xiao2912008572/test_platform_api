@@ -253,102 +253,102 @@ class ApiGroup(Resource):
 api.add_resource(ApiGroup, '/', endpoint='apigroup')
 
 
-class Api(Resource):
-    # 1. 入参解析器
-    parser = reqparse.RequestParser()
+# class Api(Resource):
+#     # 1. 入参解析器
+#     parser = reqparse.RequestParser()
+#
+#     resource_fields_get = {
+#         'type': 'api',
+#         'statusCode': "000000",
+#         'apiInfo': fields.Nested({
+#             'baseInfo': fields.Nested({
+#                 'apiName': fields.String,
+#                 'apiURI': fields.String,
+#                 'apiProtocol': fields.Boolean,
+#                 "apiSuccessMock": fields.String,
+#                 "apiFailureMock": fields.String,
+#                 "apiRequestType": fields.Boolean,
+#                 "apiStatus": fields.Boolean,
+#                 "starred": fields.Boolean,
+#                 "apiRequestParamType": fields.Boolean,
+#                 "apiRequestRaw": db.String,
+#                 "apiFailureStatusCode": fields.String,
+#                 "apiSuccessStatusCode": fields.String,
+#                 "apiUpdateTime": fields.datetime,
+#                 "removed": fields.Boolean,
+#                 "groupID": fields.Integer,
+#                 "parentGroupID": fields.Integer,
+#                 "apiID": fields.Integer,
+#                 "topParentGroupID": fields.Integer,
+#                 "updateUserName": fields.String,
+#                 "createUserName": fields.String
+#             }),
+#             'headerInfo': fields.List(fields.Nested({
+#                 "headerName": fields.String,
+#                 "headerValue": fields.String
+#             })
+#             ),
+#             'requestInfo': fields.List(fields.Nested({
+#                 "paramID": fields.Integer,
+#                 "paramNotNull": fields.Boolean,
+#                 "paramType": fields.Boolean,
+#                 "paramName": fields.String,
+#                 "paramKey": fields.String,
+#                 "paramValue": fields.String,
+#                 "paramLimit": fields.String,
+#                 # "paramValueList": fields.String,
+#             })
+#             ),
+#             'resultInfo': fields.List(fields.Nested({
+#                 "paramID"
+#                 "paramNotNull": fields.Boolean,
+#                 "paramName": fields.String,
+#                 "paramKey": fields.String,
+#                 "paramType": fields.Boolean,
+#                 # "paramValueList": fields.List(fields.Nested({
+#                 #     "valueID": fields.Integer,
+#                 #     "value": fields.String,
+#                 #     "valueDescription": fields.String
+#                 # })),
+#                 "paramID": fields.Integer,
+#             })
+#             ),
+#             'urlParam': fields.List({
+#
+#             }),
+#             'restfulParam': fields.List({
+#
+#             }),
+#         }),
+#
+#         'groupID': fields.Integer,
+#         'groupName': fields.String,
+#         'parentGroupID': fields.Integer,
+#         'isChild': fields.Boolean,
+#     }
+#
+#     resource_fields_post = {
+#         'success': fields.Boolean,
+#         'groupID': fields.Integer
+#     }
+#     resource_fields_put = {
+#         'success': fields.Boolean,
+#     }
+#     resource_fields_delete = {
+#         'success': fields.Boolean,
+#     }
+#
+#     def get(self):
+#         pass
+#
+#     def post(self):
+#         pass
+#
+#     def put(self):
+#         pass
+#
+#     def delete(self):
+#         pass
 
-    resource_fields_get = {
-        'type': 'api',
-        'statusCode': "000000",
-        'apiInfo': fields.Nested({
-            'baseInfo': fields.Nested({
-                'apiName': fields.String,
-                'apiURI': fields.String,
-                'apiProtocol': fields.Boolean,
-                "apiSuccessMock": fields.String,
-                "apiFailureMock": fields.String,
-                "apiRequestType": fields.Boolean,
-                "apiStatus": fields.Boolean,
-                "starred": fields.Boolean,
-                "apiRequestParamType": fields.Boolean,
-                "apiRequestRaw": db.String,
-                "apiFailureStatusCode": fields.String,
-                "apiSuccessStatusCode": fields.String,
-                "apiUpdateTime": fields.datetime,
-                "removed": fields.Boolean,
-                "groupID": fields.Integer,
-                "parentGroupID": fields.Integer,
-                "apiID": fields.Integer,
-                "topParentGroupID": fields.Integer,
-                "updateUserName": fields.String,
-                "createUserName": fields.String
-            }),
-            'headerInfo': fields.List(fields.Nested({
-                "headerName": fields.String,
-                "headerValue": fields.String
-            })
-            ),
-            'requestInfo': fields.List(fields.Nested({
-                "paramID": fields.Integer,
-                "paramNotNull": fields.Boolean,
-                "paramType": fields.Boolean,
-                "paramName": fields.String,
-                "paramKey": fields.String,
-                "paramValue": fields.String,
-                "paramLimit": fields.String,
-                # "paramValueList": fields.String,
-            })
-            ),
-            'resultInfo': fields.List(fields.Nested({
-                "paramID"
-                "paramNotNull": fields.Boolean,
-                "paramName": fields.String,
-                "paramKey": fields.String,
-                "paramType": fields.Boolean,
-                # "paramValueList": fields.List(fields.Nested({
-                #     "valueID": fields.Integer,
-                #     "value": fields.String,
-                #     "valueDescription": fields.String
-                # })),
-                "paramID": fields.Integer,
-            })
-            ),
-            'urlParam': fields.List({
 
-            }),
-            'restfulParam': fields.List({
-
-            }),
-        }),
-
-        'groupID': fields.Integer,
-        'groupName': fields.String,
-        'parentGroupID': fields.Integer,
-        'isChild': fields.Boolean,
-    }
-
-    resource_fields_post = {
-        'success': fields.Boolean,
-        'groupID': fields.Integer
-    }
-    resource_fields_put = {
-        'success': fields.Boolean,
-    }
-    resource_fields_delete = {
-        'success': fields.Boolean,
-    }
-
-    def get(self):
-        pass
-
-    def post(self):
-        pass
-
-    def put(self):
-        pass
-
-    def delete(self):
-        pass
-
-
-api.add_resource(Api, '/api/', endpoint='api')
+# api.add_resource(Api, '/api/', endpoint='api')
